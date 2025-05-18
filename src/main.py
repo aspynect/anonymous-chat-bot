@@ -1,11 +1,12 @@
 import discord
 from discord import app_commands
-import json
+from os import getenv
+
+DISCORD_TOKEN = getenv("DISCORD_TOKEN", "NO TOKEN PROVIDED")
 
 client = discord.Client(intents=discord.Intents.default())
 tree = app_commands.CommandTree(client)
-with open('secrets.json', 'r') as file:
-    secrets = json.load(file)
+
 
 @tree.command(name = "anon", description = "Send a message anonymously")
 @app_commands.describe(input="Message")
@@ -24,4 +25,4 @@ async def sync(interaction: discord.Interaction):
     await interaction.response.send_message("sunk!", ephemeral = True)
     print("Sunk!")
 
-client.run(secrets["token"])
+client.run(DISCORD_TOKEN)
